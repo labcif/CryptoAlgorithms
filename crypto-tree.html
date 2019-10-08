@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="height: 100%">
+<html style="height: 90%">
    <head>
        <meta charset="utf-8">
    </head>
@@ -26,18 +26,18 @@ myChart.showLoading();
 //texto json a editar
 var data = {
     //nó raiz
-    "name":"Algoritmos Criptográficos",
+    "name":"Cryptographic Algorithms",
     //formatação
     "label":{
         color: 'black',
-        fontSize: 13,
+        fontSize: 15,
         textBorderColor: 'black' ,
         textBorderWidth: .5
     },
     //filhos
     "children":[
         {
-            "name":"RSA",
+            "name":"Symmetric",
 
             //formatação do texto, consultar a secção data.label.rich https://echarts.apache.org/en/option.html#series-tree.data.label
             "label": {
@@ -46,10 +46,12 @@ var data = {
                 //Definição das secções de texto onde vão ser aplicados os estilos
                 formatter: [
                     //cabeçalho (formato: {nome da secção|texto a apresentar})
-                    '{header|RSA}',
+                    '{header|Symmetric}',
                     //notas do algoritmo
-                    'Publicado em 1977',
-                    'Cifragem assimétrica'
+                    'Mainly used for confidentiality:',
+                    '+ very fast, simple algorithms',
+                    '- requires secure channel to share keys',
+                    '- amount of keys for independent communications'
                 ].join('\n'),
 
                 //Definição dos estilos de formatação a aplicar
@@ -65,15 +67,19 @@ var data = {
             },
         },
         {
-            "name":"AES",
+            "name":"Asymmetric",
             //formatação do texto, consultar a secção data.label.rich https://echarts.apache.org/en/option.html#series-tree.data.label
             "label":{
                 backgroundColor: 'white',
 
                 formatter: [
-                    '{header|AES}',
-                    'Publicado em 1998',
-                    'Cifragem simétrica'
+                    '{header|Asymmetric}',
+                    'Mainly used for key exchange and digital signatures:',
+                    '+ plublic key can be shared through insecure channel',
+                    '+ implementation of non-repudiation',
+                    '+ exchange symmetric keys',
+                    '- slow and complex algorithms',
+                    '- complex to assure the owners of the public keys',
                 ].join('\n'),
 
                 rich: {
@@ -88,23 +94,44 @@ var data = {
             },
             "children":[
                 {
-                    "name":"AES-128",
+                    "name":"Authenticated Encryption (AE)",
+                    "label":{
+                        backgroundColor: 'white',
+
+                        formatter: [
+                            '{header|Authenticated Encryption (AE)}',
+                            'Encrypt and authenticate with the same key',
+                        ].join('\n'),
+
+                        rich: {
+                            header: {
+                                color: 'black',
+                                lineHeight: 13,
+                                fontSize: 13,
+                                textBorderColor: 'black' ,
+                                textBorderWidth: .5
+                                }
+                            }
+                        },
+                    },
+                    
+                {
+                    "name":"One Time Password (OTP)",
                 },
                 {
-                    "name":"AES-256",
+                    "name":"Digest",
                 },
             ]
         },
         {
-            "name":"MD5",
+            "name":"AuthInt",
             //formatação do texto, consultar a secção data.label.rich https://echarts.apache.org/en/option.html#series-tree.data.label
             "label": {
                 backgroundColor: 'white',
 
                 formatter: [
-                    '{header|MD5}',
-                    'Publicado em 1992',
-                    'Hash Criptográfica'
+                    '{header|Authentication and Integrity}',
+                    'Algorithms to verify and authenticate data',
                 ].join('\n'),
 
                 rich: {
@@ -117,6 +144,74 @@ var data = {
                     }
                 }
             },
+            "children":[
+                {
+                    "name":"Authenticated Encryption (AE)",
+                    "label":{
+                        backgroundColor: 'white',
+
+                        formatter: [
+                            '{header|Authenticated Encryption (AE)}',
+                            'Encrypt and authenticate with the same key',
+                        ].join('\n'),
+
+                        rich: {
+                            header: {
+                                color: 'black',
+                                lineHeight: 13,
+                                fontSize: 13,
+                                textBorderColor: 'black' ,
+                                textBorderWidth: .5
+                                }
+                            }
+                        },
+                    },
+                    
+                {
+                    "name":"One Time Password (OTP)",
+                    "label":{
+                        backgroundColor: 'white',
+
+                        formatter: [
+                            '{header|One Time Password (OTP)}',
+                            'Mainly used as second factor authentication',
+                            'Generates a different number every time',
+                        ].join('\n'),
+
+                        rich: {
+                            header: {
+                                color: 'black',
+                                lineHeight: 13,
+                                fontSize: 13,
+                                textBorderColor: 'black' ,
+                                textBorderWidth: .5
+                                }
+                            }
+                        },
+                },
+                {
+                    "name":"Digest",
+                    "label":{
+                        backgroundColor: 'white',
+
+                        formatter: [
+                            '{header|Digest}',
+                            'One-way functions that output a fixed sized value',
+                        ].join('\n'),
+
+                        rich: {
+                            header: {
+                                color: 'black',
+                                lineHeight: 13,
+                                fontSize: 13,
+                                textBorderColor: 'black' ,
+                                textBorderWidth: .5
+                                }
+                            }
+                        },
+                    
+                },
+            ]
         },
     ]
 }
@@ -124,9 +219,9 @@ var data = {
 myChart.hideLoading();
 
 //expandir os nós pares
-echarts.util.each(data.children, function (datum, index) {
-    index % 2 === 0 && (datum.collapsed = true);
-});
+// echarts.util.each(data.children, function (datum, index) {
+//     index % 2 === 0 && (datum.collapsed = true);
+// });
 
 myChart.setOption(option = {
     tooltip: {
